@@ -1,10 +1,10 @@
 import { BrowserRouter, Routes, Route, Navigate, useParams } from "react-router-dom";
 import { AuthProvider, useAuth } from "./hooks/useAuth";
-import Login from "./components/Login";
 import Dashboard from "./components/Dashboard";
-import StreamerPanel from "./components/StreamerPanel";
-import StreamPlayer from "./components/StreamPlayer";
 import Landing from "./components/Landing";
+import Login from "./components/Login";
+import StreamPlayer from "./components/StreamPlayer";
+import StreamerPanel from "./components/StreamerPanel";
 
 const PrivateRoute = ({ children }) => {
   const { user, loading } = useAuth();
