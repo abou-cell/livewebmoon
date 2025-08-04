@@ -1,64 +1,66 @@
 import { useState } from "react";
-import { auth } from "../firebase/firebaseConfig";
-import {
-  signInWithEmailAndPassword,
-  createUserWithEmailAndPassword,
-} from "firebase/auth";
+import { useAuth } from "../hooks/useAuth";
 
-export default function Login({ onLogin }) {
+const Login = () => {
+  const { signIn, register } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [isNew, setIsNew] = useState(false);
   const [error, setError] = useState("");
 
-  const handleSubmit = async (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      if (isNew) {
-        await createUserWithEmailAndPassword(auth, email, password);
-      } else {
-        await signInWithEmailAndPassword(auth, email, password);
-      }
-      onLogin();
+      await signIn(email, password);
+    } catch (err) {
+      setError(err.message);
+    }
+  };
+
+  const handleRegister = async (e) => {
+    e.preventDefault();
+    try {
+      await register(email, password);
     } catch (err) {
       setError(err.message);
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <form onSubmit={handleSubmit} className="bg-white p-8 rounded-xl shadow-md w-80">
-        <h2 className="text-lg font-semibold mb-4 text-center">
-          {isNew ? "Créer un compte" : "Connexion"}
-        </h2>
-        {error && <p className="text-red-600 text-sm mb-2">{error}</p>}
+    <div className="flex items-center justify-center min-h-screen bg-gray-50">
+      <form className="bg-white p-8 rounded-lg shadow-md w-full max-w-md space-y-4">
+        <h2 className="text-2xl font-bold text-center text-violet-600">Login</h2>
+        {error && <p className="text-red-500 text-sm">{error}</p>}
         <input
           type="email"
           placeholder="Email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="w-full border p-2 rounded-lg mb-3"
+          className="w-full p-2 border rounded-md"
         />
         <input
           type="password"
           placeholder="Mot de passe"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className="w-full border p-2 rounded-lg mb-3"
+          className="w-full p-2 border rounded-md"
         />
-        <button
-          type="submit"
-          className="w-full bg-indigo-600 text-white p-2 rounded-lg hover:bg-indigo-700"
-        >
-          {isNew ? "Créer un compte" : "Se connecter"}
-        </button>
-        <p
-          className="text-center text-sm text-indigo-500 mt-3 cursor-pointer"
-          onClick={() => setIsNew(!isNew)}
-        >
-          {isNew ? "Déjà inscrit ? Se connecter" : "Pas encore de compte ? S'inscrire"}
-        </p>
+        <div className="flex gap-2">
+          <button
+            onClick={handleLogin}
+            className="flex-1 bg-violet-500 text-white p-2 rounded-md hover:bg-violet-600 transition"
+          >
+            Login
+          </button>
+          <button
+            onClick={handleRegister}
+            className="flex-1 bg-gray-200 text-gray-700 p-2 rounded-md hover:bg-gray-300 transition"
+          >
+            Register
+          </button>
+        </div>
       </form>
     </div>
   );
-}
+};
+
+export default Login;
