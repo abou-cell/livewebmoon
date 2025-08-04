@@ -13,42 +13,91 @@ const mockStreams = [
   },
 ];
 
+const features = [
+  {
+    title: "Connexion",
+    description: "Accédez à votre compte et retrouvez vos flux favoris.",
+    link: "/login",
+    action: "Se connecter",
+  },
+  {
+    title: "Regarder un live",
+    description: "Découvrez les streams en direct de la communauté.",
+    link: "/stream/1",
+    action: "Explorer",
+  },
+  {
+    title: "Espace streamer",
+    description: "Démarrez votre propre livestream en quelques clics.",
+    link: "/streamer",
+    action: "Commencer",
+  },
+];
+
 const Home = () => {
   return (
     <div className="min-h-screen flex flex-col">
-      <section className="flex flex-col items-center justify-center text-center py-16 bg-gray-50">
-        <h1 className="text-4xl font-bold text-violet-600 mb-4">LiveWebMoon</h1>
-        <p className="mb-8 text-lg">Explore live streams from around the world.</p>
-        <div className="flex gap-4">
+      <section className="bg-violet-600 text-white text-center py-20">
+        <h1 className="text-5xl font-extrabold mb-4">LiveWebMoon</h1>
+        <p className="mb-8 text-lg">
+          La plateforme communautaire pour regarder et partager des livestreams.
+        </p>
+        <div className="space-x-4">
           <Link
             to="/login"
-            className="px-4 py-2 bg-violet-500 text-white rounded-md shadow-md transition hover:scale-105"
+            className="px-4 py-2 bg-white text-violet-600 rounded-md shadow-md transition hover:scale-105"
           >
-            Login
+            Connexion
           </Link>
           <Link
             to="/streamer"
-            className="px-4 py-2 bg-violet-500 text-white rounded-md shadow-md transition hover:scale-105"
+            className="px-4 py-2 bg-white text-violet-600 rounded-md shadow-md transition hover:scale-105"
           >
-            Streamer Panel
+            Démarrer un stream
           </Link>
         </div>
       </section>
-      <section className="p-8 grid gap-6 md:grid-cols-2">
-        {mockStreams.map((stream) => (
-          <div key={stream.id} className="bg-white rounded-md shadow-md overflow-hidden">
-            <img src={stream.thumbnail} alt={stream.title} className="w-full h-48 object-cover" />
-            <div className="p-4 flex justify-between items-center">
-              <h3 className="text-lg font-semibold">{stream.title}</h3>
-              <Link
-                to={`/stream/${stream.id}`}
-                className="px-4 py-2 bg-violet-500 text-white rounded-md shadow-md transition hover:scale-105"
-              >
-                Join
-              </Link>
-            </div>
+
+      <section className="p-8 grid gap-6 md:grid-cols-3 -mt-10">
+        {features.map((feature) => (
+          <div
+            key={feature.title}
+            className="bg-white rounded-md shadow-md p-6 flex flex-col"
+          >
+            <h3 className="text-xl font-semibold mb-2">{feature.title}</h3>
+            <p className="flex-grow mb-4">{feature.description}</p>
+            <Link
+              to={feature.link}
+              className="self-start px-4 py-2 bg-violet-500 text-white rounded-md shadow-md transition hover:scale-105"
+            >
+              {feature.action}
+            </Link>
           </div>
         ))}
+      </section>
+
+      <section className="p-8 bg-gray-50 flex-1">
+        <h2 className="text-2xl font-bold mb-4">Streams populaires</h2>
+        <div className="grid gap-6 md:grid-cols-2">
+          {mockStreams.map((stream) => (
+            <div key={stream.id} className="bg-white rounded-md shadow-md overflow-hidden">
+              <img
+                src={stream.thumbnail}
+                alt={stream.title}
+                className="w-full h-48 object-cover"
+              />
+              <div className="p-4 flex justify-between items-center">
+                <h3 className="text-lg font-semibold">{stream.title}</h3>
+                <Link
+                  to={`/stream/${stream.id}`}
+                  className="px-4 py-2 bg-violet-500 text-white rounded-md shadow-md transition hover:scale-105"
+                >
+                  Rejoindre
+                </Link>
+              </div>
+            </div>
+          ))}
+        </div>
       </section>
     </div>
   );
