@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import Navbar from "./Navbar";
 
 const mockStreams = [
   {
@@ -17,7 +16,6 @@ const mockStreams = [
 const Home = () => {
   return (
     <div className="min-h-screen flex flex-col">
-      <Navbar />
       <section className="flex flex-col items-center justify-center text-center py-16 bg-gray-50">
         <h1 className="text-4xl font-bold text-violet-600 mb-4">LiveWebMoon</h1>
         <p className="mb-8 text-lg">Explore live streams from around the world.</p>
