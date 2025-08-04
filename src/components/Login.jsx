@@ -23,7 +23,7 @@ export default function Login({ onLogin }) {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary to-secondary">
       <form onSubmit={handleSubmit} className="bg-white p-8 rounded-2xl shadow-lg w-80">
         <h1 className="text-xl font-semibold mb-4 text-center text-gray-700">
           {isNew ? "Créer un compte" : "Connexion"}
@@ -45,12 +45,12 @@ export default function Login({ onLogin }) {
         />
         <button
           type="submit"
-          className="w-full p-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition"
+          className="w-full p-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition"
         >
           {isNew ? "Créer un compte" : "Se connecter"}
         </button>
         <p
-          className="text-center mt-4 text-sm text-indigo-500 cursor-pointer"
+          className="text-center mt-4 text-sm text-primary cursor-pointer"
           onClick={() => setIsNew(!isNew)}
         >
           {isNew ? "Déjà inscrit ? Se connecter" : "Pas encore inscrit ? Créer un compte"}
