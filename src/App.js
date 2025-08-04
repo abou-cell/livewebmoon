@@ -4,6 +4,7 @@ import Login from "./components/Login";
 import Dashboard from "./components/Dashboard";
 import StreamerPanel from "./components/StreamerPanel";
 import StreamPlayer from "./components/StreamPlayer";
+import Landing from "./components/Landing";
 
 const PrivateRoute = ({ children }) => {
   const { user, loading } = useAuth();
@@ -21,9 +22,10 @@ function App() {
     <AuthProvider>
       <BrowserRouter>
         <Routes>
+          <Route path="/" element={<Landing />} />
           <Route path="/login" element={<Login />} />
           <Route
-            path="/"
+            path="/dashboard"
             element={
               <PrivateRoute>
                 <Dashboard />

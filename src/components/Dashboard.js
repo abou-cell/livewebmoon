@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 import Header from "./Header";
+import Navbar from "./Navbar";
 
 const Dashboard = () => {
   const { user } = useAuth();
@@ -14,6 +15,7 @@ const Dashboard = () => {
 
   return (
     <div className="p-4">
+      <Navbar />
       <Header />
       <h2 className="text-xl mb-4">Bonjour {user?.email}</h2>
       <div className="mb-4">Crédits: {credits}</div>

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Header from "./Header";
+import Navbar from "./Navbar";
 import { createLiveStream } from "../api/createLiveStream";
 
 const StreamerPanel = () => {
@@ -12,6 +13,7 @@ const StreamerPanel = () => {
 
   return (
     <div className="p-4">
+      <Navbar />
       <Header />
       <button
         onClick={handleCreate}
