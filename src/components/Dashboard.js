@@ -1,9 +1,11 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 import Header from "./Header";
 
 const Dashboard = () => {
   const { user } = useAuth();
+  const navigate = useNavigate();
   const [credits] = useState(10); // mock Firestore
   const streams = [
     { id: "stream1", title: "Live Coding" },
@@ -25,7 +27,10 @@ const Dashboard = () => {
             className="p-4 bg-white rounded-md shadow-md flex justify-between items-center"
           >
             <span>{s.title}</span>
-            <button className="px-4 py-2 bg-violet-500 text-white rounded-md shadow-md transition hover:scale-105">
+            <button
+              onClick={() => navigate(`/stream/${s.id}`)}
+              className="px-4 py-2 bg-violet-500 text-white rounded-md shadow-md transition hover:scale-105"
+            >
               Rejoindre le live
             </button>
           </li>
