@@ -19,9 +19,10 @@ const StreamPlayerWrapper = () => {
 };
 
 function App() {
+  const basename = import.meta.env.BASE_URL.replace(/\/$/, '');
   return (
     <AuthProvider>
-      <BrowserRouter>
+      <BrowserRouter basename={basename}>
         <Navbar />
         <Routes>
           <Route path="/login" element={<Login />} />
