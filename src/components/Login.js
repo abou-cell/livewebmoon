@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { useAuth } from "../hooks/useAuth";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const { signIn, register } = useAuth();
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -11,6 +13,7 @@ const Login = () => {
     e.preventDefault();
     try {
       await signIn(email, password);
+      navigate("/dashboard");
     } catch (err) {
       setError(err.message);
     }
@@ -20,6 +23,7 @@ const Login = () => {
     e.preventDefault();
     try {
       await register(email, password);
+      navigate("/dashboard");
     } catch (err) {
       setError(err.message);
     }
