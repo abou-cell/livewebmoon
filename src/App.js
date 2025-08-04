@@ -5,6 +5,7 @@ import Dashboard from "./components/Dashboard";
 import StreamerPanel from "./components/StreamerPanel";
 import StreamPlayer from "./components/StreamPlayer";
 import Home from "./components/Home";
+import Navbar from "./components/Navbar";
 
 const PrivateRoute = ({ children }) => {
   const { user, loading } = useAuth();
@@ -21,6 +22,7 @@ function App() {
   return (
     <AuthProvider>
       <BrowserRouter>
+        <Navbar />
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/" element={<Home />} />
