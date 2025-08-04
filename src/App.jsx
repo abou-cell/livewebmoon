@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./firebase/firebaseConfig.js";
-import Login from "./components/Login.js";
+import Login from "./components/Login.jsx";
 function App() {
   const [user, setUser] = useState(null);
 
