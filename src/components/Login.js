@@ -31,36 +31,36 @@ const Login = () => {
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-50">
-      <form className="bg-white p-8 rounded-lg shadow-md w-full max-w-md space-y-4">
-        <h2 className="text-2xl font-bold text-center text-violet-600">Login</h2>
+      <form className="bg-white p-8 rounded-2xl shadow-lg w-full max-w-md space-y-4">
+        <h2 className="text-2xl font-bold text-center text-primary">Login</h2>
         {error && <p className="text-red-500 text-sm">{error}</p>}
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          className="w-full p-2 border rounded-md"
-        />
-        <input
-          type="password"
-          placeholder="Mot de passe"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          className="w-full p-2 border rounded-md"
-        />
+          <input
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="w-full p-2 border rounded-lg"
+          />
+          <input
+            type="password"
+            placeholder="Mot de passe"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="w-full p-2 border rounded-lg"
+          />
         <div className="flex gap-2">
-          <button
-            onClick={handleLogin}
-            className="flex-1 bg-violet-500 text-white p-2 rounded-md hover:bg-violet-600 transition"
-          >
-            Login
-          </button>
-          <button
-            onClick={handleRegister}
-            className="flex-1 bg-gray-200 text-gray-700 p-2 rounded-md hover:bg-gray-300 transition"
-          >
-            Register
-          </button>
+            <button
+              onClick={handleLogin}
+              className="flex-1 bg-primary text-white p-2 rounded-2xl hover:bg-primary/90 transition shadow-lg"
+            >
+              Login
+            </button>
+            <button
+              onClick={handleRegister}
+              className="flex-1 bg-gray-200 text-gray-700 p-2 rounded-2xl hover:bg-gray-300 transition shadow-lg"
+            >
+              Register
+            </button>
         </div>
       </form>
     </div>
