@@ -47,7 +47,6 @@ export default function App() {
       <Route path="/dashboard" element={<Dashboard />} />
       <Route path="/streamer" element={<StreamerPanel />} />
       <Route path="/watch/:id" element={<StreamPlayer />} />
-      {/* Fallback */}
       <Route path="*" element={<Home />} />
     </Routes>
   )
