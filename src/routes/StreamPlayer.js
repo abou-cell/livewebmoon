@@ -24,21 +24,21 @@ const StreamPlayer = ({ streamId }) => {
     return <div className="p-4">Plus de crédits.</div>;
   }
 
-    return (
-      <div className="p-4 bg-white rounded-2xl shadow-lg">
-        <iframe
-          src={`https://videodelivery.net/${streamId}/iframe`}
-          className="w-full h-64 rounded-2xl"
-          allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-          allowFullScreen
-          title="player"
-        ></iframe>
-        <div className="mt-4 flex justify-between">
-          <span>Crédits: {credits}</span>
-          <span>Temps restant: {seconds}s</span>
-        </div>
+  return (
+    <div className="p-4 bg-white rounded-2xl shadow-lg">
+      <iframe
+        src={`https://videodelivery.net/${streamId}/iframe`}
+        className="w-full h-64 rounded-2xl"
+        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+        allowFullScreen
+        title="player"
+      ></iframe>
+      <div className="mt-4 flex justify-between">
+        <span>Crédits: {credits}</span>
+        <span>Temps restant: {seconds}s</span>
       </div>
-    );
-  };
+    </div>
+  );
+};
 
 export default StreamPlayer;
