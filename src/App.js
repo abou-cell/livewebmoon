@@ -1,11 +1,9 @@
 import { BrowserRouter, Routes, Route, Navigate, useParams } from "react-router-dom";
 import { AuthProvider, useAuth } from "./hooks/useAuth";
-import Login from "./components/Login";
-import Dashboard from "./components/Dashboard";
-import StreamerPanel from "./components/StreamerPanel";
-import StreamPlayer from "./components/StreamPlayer";
-import Home from "./components/Home";
-import Navbar from "./components/Navbar";
+import Login from "./routes/Login";
+import Dashboard from "./routes/Dashboard";
+import StreamerPanel from "./routes/StreamerPanel";
+import StreamPlayer from "./routes/StreamPlayer";
 
 const PrivateRoute = ({ children }) => {
   const { user, loading } = useAuth();
@@ -19,14 +17,11 @@ const StreamPlayerWrapper = () => {
 };
 
 function App() {
-  const basename = import.meta.env.BASE_URL.replace(/\/$/, '');
   return (
     <AuthProvider>
-      <BrowserRouter basename={basename}>
-        <Navbar />
+      <BrowserRouter>
         <Routes>
           <Route path="/login" element={<Login />} />
-          <Route path="/" element={<Home />} />
           <Route
             path="/dashboard"
             element={
@@ -51,6 +46,7 @@ function App() {
               </PrivateRoute>
             }
           />
+          <Route path="/" element={<Navigate to="/login" />} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>
