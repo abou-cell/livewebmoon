@@ -201,6 +201,9 @@ export default function Home() {
           <Link to="/super-admin" className="px-6 py-3 border rounded-lg">
             ⚙️ Interface admin
           </Link>
+          <Link to="/creator-admin" className="px-6 py-3 border rounded-lg">
+            PAGE ADMINISTRATEUR – CRÉATEUR
+          </Link>
         </div>
       </section>
 
