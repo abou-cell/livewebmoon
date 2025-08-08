@@ -198,6 +198,9 @@ export default function Home() {
           <Link to="/streamer" className="px-6 py-3 border rounded-lg">
             Je suis streamer
           </Link>
+          <Link to="/super-admin" className="px-6 py-3 border rounded-lg">
+            ⚙️ Interface admin
+          </Link>
         </div>
       </section>
 
