@@ -76,6 +76,12 @@ export default function Home() {
           >
             🎥 Rejoindre un live
           </Link>
+          <Link
+            to="/super-admin"
+            className="px-6 py-3 bg-black text-white rounded-lg hover:bg-white hover:text-indigo-600 transition"
+          >
+            ⚙️ Interface admin
+          </Link>
         </div>
       </section>
 
