@@ -12,7 +12,9 @@ const t = key => {
     profile: { fr: 'Profil', en: 'Profile' },
     activity: { fr: "Journal d'activité", en: 'Activity log' },
     logout: { fr: 'Déconnexion', en: 'Logout' },
-    statusOnline: { fr: 'En ligne', en: 'Online' }
+    statusOnline: { fr: 'En ligne', en: 'Online' },
+    statusDegraded: { fr: 'Dégradé', en: 'Degraded' },
+    statusMaintenance: { fr: 'Maintenance', en: 'Maintenance' }
   }
   return dict[key][LANG]
 }
@@ -33,6 +35,7 @@ const menuItems = [
 export default function AdminLayout() {
   const [menuOpen, setMenuOpen] = useState(false)
   const menuRef = useRef(null)
+  const [status, setStatus] = useState({ status: 'online', updatedAt: '', metrics: {} })
 
   useEffect(() => {
     const handler = e => {
@@ -42,6 +45,13 @@ export default function AdminLayout() {
     }
     document.addEventListener('mousedown', handler)
     return () => document.removeEventListener('mousedown', handler)
+  }, [])
+
+  useEffect(() => {
+    fetch('/api/system/status')
+      .then(r => r.json())
+      .then(data => setStatus(data))
+      .catch(() => {})
   }, [])
 
   return (
@@ -74,9 +84,22 @@ export default function AdminLayout() {
             <span className="font-semibold">LiveWebMoon</span>
           </div>
           <div className="flex items-center gap-6">
-            <div className="flex items-center text-sm" title={t('statusOnline')}>
-              <span className="mr-1">🟢</span> {t('statusOnline')}
-            </div>
+            {
+              (() => {
+                const map = {
+                  online: { icon: '🟢', label: t('statusOnline') },
+                  degraded: { icon: '🟠', label: t('statusDegraded') },
+                  maintenance: { icon: '🔴', label: t('statusMaintenance') }
+                }
+                const cur = map[status.status] || map.online
+                const tip = `Last update: ${status.updatedAt} \u2022 Latency: ${status.metrics?.latency ?? '-'}ms`
+                return (
+                  <div className="flex items-center text-sm" title={tip}>
+                    <span className="mr-1">{cur.icon}</span> {cur.label}
+                  </div>
+                )
+              })()
+            }
             <nav className="flex items-center gap-4 text-sm">
               <a
                 href="/"

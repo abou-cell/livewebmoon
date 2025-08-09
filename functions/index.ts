@@ -10,3 +10,4 @@ export { adminModeration } from "./adminModeration";
 export { adminLogs } from "./adminLogs";
 export { adminSettings } from "./adminSettings";
 export { adminSupport } from "./adminSupport";
+export { systemStatus } from "./systemStatus";
