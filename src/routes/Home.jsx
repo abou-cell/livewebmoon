@@ -88,6 +88,12 @@ export default function Home() {
           >
             🧑‍💻 Interface créateur
           </Link>
+          <Link
+            to="/subscriber"
+            className="px-6 py-3 bg-black text-white rounded-lg hover:bg-white hover:text-indigo-600 transition"
+          >
+            👤 Interface abonné
+          </Link>
         </div>
       </section>
 
