@@ -9,6 +9,7 @@ import Subscriber from './routes/Subscriber'
 import AdminLayout from './routes/admin/AdminLayout'
 import AdminDashboard from './routes/admin/Dashboard'
 import Placeholder from './routes/admin/Placeholder'
+import AdminLive from './routes/admin/Live'
 import RequireSuperAdmin from './routes/admin/RequireSuperAdmin'
 
 export default function App() {
@@ -29,7 +30,7 @@ export default function App() {
           }
         >
           <Route index element={<AdminDashboard />} />
-          <Route path="live" element={<Placeholder title="Live" />} />
+          <Route path="live" element={<AdminLive />} />
           <Route path="photos" element={<Placeholder title="Photos payantes" />} />
           <Route path="videos" element={<Placeholder title="Vidéos payantes" />} />
           <Route path="credits" element={<Placeholder title="Crédits & Prix" />} />
