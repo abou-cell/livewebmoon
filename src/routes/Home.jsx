@@ -40,20 +40,26 @@ function ArticleCard({ title }) {
 }
 
 export default function Home() {
+  const [menuOpen, setMenuOpen] = useState(false)
+
   return (
     <div className="font-sans bg-background text-gray-100">
-      <header className="flex items-center justify-between p-4 bg-surface/50 backdrop-blur-md rounded-b-xl shadow-lg text-gray-100 border-b border-gray-700">
+      <header className="relative flex items-center justify-between p-4 bg-surface/50 backdrop-blur-md rounded-b-xl shadow-lg text-gray-100 border-b border-gray-700">
         <div className="flex items-center gap-2">
           <span className="text-2xl">⚡</span>
           <span className="font-bold text-lg">LiveStream+</span>
         </div>
-        <nav className="hidden md:flex gap-6">
+        <nav
+          className={`${menuOpen ? 'flex' : 'hidden'} absolute top-full right-4 flex-col gap-4 bg-surface border border-gray-700 rounded-lg p-4 shadow-md md:static md:flex md:flex-row md:gap-6 md:bg-transparent md:border-0 md:p-0 md:shadow-none`}
+        >
           <a href="#home">Accueil</a>
           <a href="#features">Fonctionnalités</a>
           <a href="#pricing">Tarifs</a>
           <Link to="/login">Connexion / Inscription</Link>
         </nav>
-        <button className="md:hidden">☰</button>
+        <button className="md:hidden" onClick={() => setMenuOpen(o => !o)}>
+          ☰
+        </button>
       </header>
 
       <section
