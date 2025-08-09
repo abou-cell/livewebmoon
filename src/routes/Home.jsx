@@ -90,7 +90,7 @@ export default function Home() {
           </Link>
           <Link
             to="/subscriber"
-            className="px-6 py-3 bg-black text-white rounded-lg hover:bg-white hover:text-indigo-600 transition"
+            className="px-6 py-3 bg-white text-indigo-600 rounded-lg hover:scale-105 transition"
           >
             👤 Interface abonné
           </Link>
