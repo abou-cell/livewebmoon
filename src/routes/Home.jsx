@@ -208,7 +208,10 @@ export default function Home() {
             ⚙️ Interface admin
           </Link>
           <Link to="/creator-admin" className="px-6 py-3 border rounded-lg">
-            PAGE ADMINISTRATEUR – CRÉATEUR
+            🛠️ PAGE ADMINISTRATEUR – CRÉATEUR
+          </Link>
+          <Link to="/subscriber" className="px-6 py-3 border rounded-lg">
+            👤 Interface ABONNÉ
           </Link>
         </div>
       </section>

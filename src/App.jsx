@@ -6,6 +6,7 @@ import StreamerPanel from './routes/StreamerPanel'
 import StreamPlayer from './routes/StreamPlayer'
 import SuperAdmin from './routes/SuperAdmin'
 import CreatorAdmin from './routes/CreatorAdmin'
+import Subscriber from './routes/Subscriber'
 
 export default function App() {
   return (
@@ -17,6 +18,7 @@ export default function App() {
       <Route path="/watch/:id" element={<StreamPlayer />} />
       <Route path="/super-admin" element={<SuperAdmin />} />
       <Route path="/creator-admin" element={<CreatorAdmin />} />
+      <Route path="/subscriber" element={<Subscriber />} />
       <Route path="*" element={<Home />} />
     </Routes>
   )
