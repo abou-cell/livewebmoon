@@ -5,6 +5,7 @@ export default function Subscriber() {
   const [credits, setCredits] = useState(12)
   const [unlockedPhotos, setUnlockedPhotos] = useState({})
   const [unlockedVideos, setUnlockedVideos] = useState({})
+  const [menuOpen, setMenuOpen] = useState(false)
   const photos = Array.from({ length: 3 }).map((_, i) => ({ id: i + 1 }))
   const videos = Array.from({ length: 2 }).map((_, i) => ({ id: i + 1, duration: '2:30' }))
 
@@ -18,18 +19,28 @@ export default function Subscriber() {
   return (
     <div className="font-sans bg-background text-gray-100 min-h-screen flex flex-col">
       {/* Header */}
-      <header className="bg-surface shadow-sm h-14 px-4 flex justify-between items-center border-b border-gray-700">
+      <header className="relative bg-surface shadow-sm h-14 px-4 flex justify-between items-center border-b border-gray-700">
         <Link to="/" className="font-bold">🌙 StreamMint</Link>
         <div className="flex items-center gap-4">
           <Link to="/" className="hidden sm:block">🔗 Accueil</Link>
           <button className="hidden sm:block">👤 Mon compte</button>
           <button className="hidden sm:block">💳 Recharger</button>
           <button className="hidden sm:block">📤 Déconnexion</button>
-          <button className="sm:hidden">☰</button>
+          <button className="sm:hidden" onClick={() => setMenuOpen(o => !o)}>
+            ☰
+          </button>
           <button className="px-3 py-1 bg-gray-700 rounded-full" title="Recharger">
             💳 {credits} crédits
           </button>
         </div>
+        {menuOpen && (
+          <div className="absolute top-full right-4 flex flex-col gap-2 bg-surface border border-gray-700 rounded-lg p-4 shadow-md sm:hidden">
+            <Link to="/" onClick={() => setMenuOpen(false)}>🔗 Accueil</Link>
+            <button onClick={() => setMenuOpen(false)}>👤 Mon compte</button>
+            <button onClick={() => setMenuOpen(false)}>💳 Recharger</button>
+            <button onClick={() => setMenuOpen(false)}>📤 Déconnexion</button>
+          </div>
+        )}
       </header>
 
       {/* Banner */}
