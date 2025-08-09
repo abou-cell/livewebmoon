@@ -82,6 +82,12 @@ export default function Home() {
           >
             ⚙️ Interface admin
           </Link>
+          <Link
+            to="/creator-admin"
+            className="px-6 py-3 bg-black text-white rounded-lg hover:bg-white hover:text-indigo-600 transition"
+          >
+            🧑‍💻 Interface créateur
+          </Link>
         </div>
       </section>
 
