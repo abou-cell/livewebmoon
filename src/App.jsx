@@ -13,6 +13,8 @@ import AdminLive from './routes/admin/Live'
 import AdminPhotos from './routes/admin/Photos'
 import AdminVideos from './routes/admin/Videos'
 import RequireSuperAdmin from './routes/admin/RequireSuperAdmin'
+import AdminCredits from './routes/admin/Credits'
+import AdminPayments from './routes/admin/Payments'
 
 export default function App() {
   return (
@@ -35,8 +37,8 @@ export default function App() {
           <Route path="live" element={<AdminLive />} />
           <Route path="photos" element={<AdminPhotos />} />
           <Route path="videos" element={<AdminVideos />} />
-          <Route path="credits" element={<Placeholder title="Crédits & Prix" />} />
-          <Route path="payments" element={<Placeholder title="Paiements & Payouts" />} />
+          <Route path="credits" element={<AdminCredits />} />
+          <Route path="payments" element={<AdminPayments />} />
           <Route path="moderation" element={<Placeholder title="Modération & Signalements" />} />
           <Route path="logs" element={<Placeholder title="Logs & Audit" />} />
           <Route path="settings" element={<Placeholder title="Paramètres" />} />
