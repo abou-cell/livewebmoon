@@ -1,4 +1,21 @@
+import { useEffect, useRef, useState } from 'react'
 import { NavLink, Outlet } from 'react-router-dom'
+import SecOpsBanner from './SecOpsBanner'
+
+const LANG = navigator.language?.startsWith('fr') ? 'fr' : 'en'
+const t = key => {
+  const dict = {
+    publicPage: { fr: 'Page publique', en: 'Public page' },
+    testPlayer: { fr: 'Player test', en: 'Test player' },
+    docs: { fr: 'Docs internes', en: 'Internal docs' },
+    account: { fr: 'Compte', en: 'Account' },
+    profile: { fr: 'Profil', en: 'Profile' },
+    activity: { fr: "Journal d'activité", en: 'Activity log' },
+    logout: { fr: 'Déconnexion', en: 'Logout' },
+    statusOnline: { fr: 'En ligne', en: 'Online' }
+  }
+  return dict[key][LANG]
+}
 
 const menuItems = [
   { to: '/admin', label: '🏠 Dashboard', end: true },
@@ -14,9 +31,26 @@ const menuItems = [
 ]
 
 export default function AdminLayout() {
+  const [menuOpen, setMenuOpen] = useState(false)
+  const menuRef = useRef(null)
+
+  useEffect(() => {
+    const handler = e => {
+      if (menuRef.current && !menuRef.current.contains(e.target)) {
+        setMenuOpen(false)
+      }
+    }
+    document.addEventListener('mousedown', handler)
+    return () => document.removeEventListener('mousedown', handler)
+  }, [])
+
   return (
     <div className="flex h-screen bg-background text-gray-100">
-      <aside className="w-64 h-screen bg-surface border-r border-gray-700 p-4 space-y-2" role="navigation">
+      <aside
+        className="w-64 h-screen bg-surface border-r border-gray-700 p-4 space-y-2"
+        role="navigation"
+        aria-label="Admin"
+      >
         {menuItems.map(item => (
           <NavLink
             key={item.to}
@@ -40,8 +74,8 @@ export default function AdminLayout() {
             <span className="font-semibold">LiveWebMoon</span>
           </div>
           <div className="flex items-center gap-6">
-            <div className="flex items-center text-sm" title="Plateforme en ligne">
-              <span className="mr-1">🟢</span> En ligne
+            <div className="flex items-center text-sm" title={t('statusOnline')}>
+              <span className="mr-1">🟢</span> {t('statusOnline')}
             </div>
             <nav className="flex items-center gap-4 text-sm">
               <a
@@ -50,7 +84,7 @@ export default function AdminLayout() {
                 rel="noopener noreferrer"
                 className="text-primary hover:underline"
               >
-                Page publique
+                {t('publicPage')}
               </a>
               <a
                 href="/player-test"
@@ -58,7 +92,7 @@ export default function AdminLayout() {
                 rel="noopener noreferrer"
                 className="text-primary hover:underline"
               >
-                Player test
+                {t('testPlayer')}
               </a>
               <a
                 href="/docs"
@@ -66,22 +100,55 @@ export default function AdminLayout() {
                 rel="noopener noreferrer"
                 className="text-primary hover:underline"
               >
-                Docs internes
+                {t('docs')}
               </a>
             </nav>
-            <div className="relative">
+            <div className="relative" ref={menuRef}>
               <button
                 className="px-3 py-1 rounded-xl bg-gray-200"
                 aria-haspopup="menu"
-                aria-expanded="false"
+                aria-expanded={menuOpen}
+                onClick={() => setMenuOpen(o => !o)}
+                onKeyDown={e => {
+                  if (e.key === 'Escape') setMenuOpen(false)
+                }}
               >
-                Compte ▾
+                {t('account')} ▾
               </button>
+              {menuOpen && (
+                <div
+                  className="absolute right-0 mt-1 bg-white border rounded shadow-lg text-gray-800"
+                  role="menu"
+                >
+                  {[
+                    { key: 'profile', href: '#profile' },
+                    { key: 'activity', href: '#activity' },
+                    { key: 'logout', href: '#logout' }
+                  ].map(item => (
+                    <a
+                      key={item.key}
+                      role="menuitem"
+                      tabIndex={0}
+                      href={item.href}
+                      className="block px-4 py-2 hover:bg-gray-100"
+                      onKeyDown={e => {
+                        if (e.key === 'Enter') {
+                          window.location.href = item.href
+                        }
+                      }}
+                    >
+                      {t(item.key)}
+                    </a>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         </header>
 
-        <main className="flex-1 overflow-y-auto p-6 bg-background text-gray-100">
+        <SecOpsBanner />
+
+        <main className="flex-1 overflow-y-auto p-6 bg-background text-gray-100" role="main">
           <Outlet />
         </main>
       </div>
