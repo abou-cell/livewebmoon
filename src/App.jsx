@@ -8,13 +8,16 @@ import CreatorAdmin from './routes/CreatorAdmin'
 import Subscriber from './routes/Subscriber'
 import AdminLayout from './routes/admin/AdminLayout'
 import AdminDashboard from './routes/admin/Dashboard'
-import Placeholder from './routes/admin/Placeholder'
 import AdminLive from './routes/admin/Live'
 import AdminPhotos from './routes/admin/Photos'
 import AdminVideos from './routes/admin/Videos'
 import RequireSuperAdmin from './routes/admin/RequireSuperAdmin'
 import AdminCredits from './routes/admin/Credits'
 import AdminPayments from './routes/admin/Payments'
+import AdminModeration from './routes/admin/Moderation'
+import AdminLogs from './routes/admin/Logs'
+import AdminSettings from './routes/admin/Settings'
+import AdminSupport from './routes/admin/Support'
 
 export default function App() {
   return (
@@ -39,10 +42,10 @@ export default function App() {
           <Route path="videos" element={<AdminVideos />} />
           <Route path="credits" element={<AdminCredits />} />
           <Route path="payments" element={<AdminPayments />} />
-          <Route path="moderation" element={<Placeholder title="Modération & Signalements" />} />
-          <Route path="logs" element={<Placeholder title="Logs & Audit" />} />
-          <Route path="settings" element={<Placeholder title="Paramètres" />} />
-          <Route path="support" element={<Placeholder title="Support" />} />
+          <Route path="moderation" element={<AdminModeration />} />
+          <Route path="logs" element={<AdminLogs />} />
+          <Route path="settings" element={<AdminSettings />} />
+          <Route path="support" element={<AdminSupport />} />
         </Route>
         <Route path="/creator-admin" element={<CreatorAdmin />} />
         <Route path="/subscriber" element={<Subscriber />} />

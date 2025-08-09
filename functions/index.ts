@@ -6,3 +6,7 @@ export { adminPhotos } from "./adminPhotos";
 export { adminVideos } from "./adminVideos";
 export { adminCredits } from "./adminCredits";
 export { adminPayments } from "./adminPayments";
+export { adminModeration } from "./adminModeration";
+export { adminLogs } from "./adminLogs";
+export { adminSettings } from "./adminSettings";
+export { adminSupport } from "./adminSupport";
