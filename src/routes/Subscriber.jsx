@@ -16,9 +16,9 @@ export default function Subscriber() {
   }
 
   return (
-    <div className="font-sans bg-gray-50 min-h-screen flex flex-col">
+    <div className="font-sans bg-background text-gray-100 min-h-screen flex flex-col">
       {/* Header */}
-      <header className="bg-white shadow-sm h-14 px-4 flex justify-between items-center">
+      <header className="bg-surface shadow-sm h-14 px-4 flex justify-between items-center border-b border-gray-700">
         <Link to="/" className="font-bold">🌙 StreamMint</Link>
         <div className="flex items-center gap-4">
           <Link to="/" className="hidden sm:block">🔗 Accueil</Link>
@@ -26,14 +26,14 @@ export default function Subscriber() {
           <button className="hidden sm:block">💳 Recharger</button>
           <button className="hidden sm:block">📤 Déconnexion</button>
           <button className="sm:hidden">☰</button>
-          <button className="px-3 py-1 bg-gray-100 rounded-full" title="Recharger">
+          <button className="px-3 py-1 bg-gray-700 rounded-full" title="Recharger">
             💳 {credits} crédits
           </button>
         </div>
       </header>
 
       {/* Banner */}
-      <section className="bg-white shadow-sm p-6 flex flex-col items-center text-center gap-4">
+      <section className="bg-surface shadow-sm p-6 flex flex-col items-center text-center gap-4">
         <img
           src="https://via.placeholder.com/120"
           alt="Avatar"
@@ -43,13 +43,13 @@ export default function Subscriber() {
           <span className="font-semibold">@marie-modele</span>
           <span className="text-blue-500">✅</span>
         </div>
-        <div className="flex flex-wrap justify-center gap-4 text-sm text-gray-600">
+        <div className="flex flex-wrap justify-center gap-4 text-sm text-gray-400">
           <span>📷 12 photos</span>
           <span>🎞 6 vidéos</span>
           <span>📡 Live en cours</span>
           <span>⭐ 4.8/5</span>
         </div>
-        <button className="px-4 py-2 bg-[#635BFF] text-white rounded-xl shadow hover:scale-105 transition">
+        <button className="px-4 py-2 bg-primary text-white rounded-xl shadow hover:scale-105 transition">
           S’abonner à ce créateur
         </button>
         <p className="text-xs text-gray-500">
@@ -59,22 +59,22 @@ export default function Subscriber() {
 
       {/* Credits info */}
       <section className="p-6">
-        <div className="bg-white rounded-2xl shadow-lg p-6 max-w-xl mx-auto text-center space-y-2">
+        <div className="bg-surface rounded-2xl shadow-lg p-6 max-w-xl mx-auto text-center space-y-2">
           <p className="text-lg">Vous avez : 💳 {credits} crédits</p>
           <p>👉 1 minute de live = 1 crédit</p>
           <p>👉 Une photo/vidéo = 3 à 5 crédits</p>
-          <button className="px-4 py-2 bg-[#635BFF] text-white rounded-xl">💳 Recharger mes crédits</button>
+          <button className="px-4 py-2 bg-primary text-white rounded-xl">💳 Recharger mes crédits</button>
         </div>
       </section>
 
       {/* Live section placeholder */}
       <section className="p-6">
-        <div className="bg-white rounded-2xl shadow-lg p-6 text-center">
+        <div className="bg-surface rounded-2xl shadow-lg p-6 text-center">
           <h2 className="text-xl font-semibold mb-4">📡 Live streaming</h2>
-          <div className="aspect-video bg-gray-200 flex items-center justify-center mb-4">
+          <div className="aspect-video bg-gray-700 flex items-center justify-center mb-4">
             Player live
           </div>
-          <p className="text-sm text-gray-500">Minuteur & débit automatique toutes les 60s</p>
+          <p className="text-sm text-gray-400">Minuteur & débit automatique toutes les 60s</p>
         </div>
       </section>
 
@@ -83,7 +83,7 @@ export default function Subscriber() {
         <h2 className="text-xl font-semibold mb-4">📸 Photos exclusives</h2>
         <div className="grid gap-4 sm:grid-cols-3">
           {photos.map(photo => (
-            <div key={photo.id} className="relative border rounded-lg overflow-hidden shadow">
+            <div key={photo.id} className="relative border border-gray-700 bg-surface rounded-lg overflow-hidden shadow">
               <img
                 src="https://via.placeholder.com/400x250"
                 className={`w-full h-full object-cover ${unlockedPhotos[photo.id] ? '' : 'blur-sm'}`}
@@ -106,12 +106,12 @@ export default function Subscriber() {
         <h2 className="text-xl font-semibold mb-4">🎞 Vidéos payantes</h2>
         <div className="grid gap-4 sm:grid-cols-2">
           {videos.map(video => (
-            <div key={video.id} className="relative border rounded-lg overflow-hidden shadow">
-              <div className="aspect-video w-full bg-gray-200 flex items-center justify-center">
+            <div key={video.id} className="relative border border-gray-700 bg-surface rounded-lg overflow-hidden shadow">
+              <div className="aspect-video w-full bg-gray-700 flex items-center justify-center">
                 {unlockedVideos[video.id] ? (
                   <span>Lecture vidéo</span>
                 ) : (
-                  <span className="text-gray-500">Vidéos payantes</span>
+                  <span className="text-gray-400">Vidéos payantes</span>
                 )}
               </div>
               {!unlockedVideos[video.id] && (
@@ -129,12 +129,12 @@ export default function Subscriber() {
 
       {/* Premium subscription */}
       <section className="p-6">
-        <div className="max-w-md mx-auto bg-white rounded-2xl shadow-lg p-6 text-center space-y-4">
+        <div className="max-w-md mx-auto bg-surface rounded-2xl shadow-lg p-6 text-center space-y-4">
           <h2 className="text-xl font-semibold">🎁 Abonnement Premium</h2>
-          <p className="text-gray-600">Accès illimité au créateur</p>
-          <p className="text-gray-600">Lives sans perte de crédits</p>
-          <p className="text-gray-600">Remises sur photos/vidéos</p>
-          <button className="px-4 py-2 bg-[#635BFF] text-white rounded-xl">
+          <p className="text-gray-400">Accès illimité au créateur</p>
+          <p className="text-gray-400">Lives sans perte de crédits</p>
+          <p className="text-gray-400">Remises sur photos/vidéos</p>
+          <button className="px-4 py-2 bg-primary text-white rounded-xl">
             🔒 Abonnement Premium – 9,99 €/mois
           </button>
         </div>
@@ -144,8 +144,8 @@ export default function Subscriber() {
       <section className="p-6 flex-1">
         <h2 className="text-xl font-semibold mb-4">🧾 Historique d’interactions</h2>
         <div className="overflow-x-auto">
-          <table className="min-w-full bg-white rounded-2xl shadow-lg overflow-hidden">
-            <thead className="bg-gray-100">
+          <table className="min-w-full bg-surface rounded-2xl shadow-lg overflow-hidden">
+            <thead className="bg-gray-700">
               <tr>
                 <th className="p-2 text-left">📅 Date</th>
                 <th className="p-2 text-left">🎬 Contenu</th>
@@ -153,17 +153,17 @@ export default function Subscriber() {
               </tr>
             </thead>
             <tbody>
-              <tr className="border-t">
+              <tr className="border-t border-gray-700">
                 <td className="p-2">06/08</td>
                 <td className="p-2">Live Marie</td>
                 <td className="p-2">−3</td>
               </tr>
-              <tr className="border-t">
+              <tr className="border-t border-gray-700">
                 <td className="p-2">06/08</td>
                 <td className="p-2">Photo 5</td>
                 <td className="p-2">−3</td>
               </tr>
-              <tr className="border-t">
+              <tr className="border-t border-gray-700">
                 <td className="p-2">05/08</td>
                 <td className="p-2">Vidéo 2</td>
                 <td className="p-2">−5</td>
