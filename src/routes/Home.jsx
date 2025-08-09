@@ -42,7 +42,7 @@ function ArticleCard({ title }) {
 export default function Home() {
   return (
     <div className="font-sans">
-      <header className="flex items-center justify-between p-4">
+      <header className="flex items-center justify-between p-4 bg-white/30 backdrop-blur-md rounded-b-xl shadow-lg text-gray-900">
         <div className="flex items-center gap-2">
           <span className="text-2xl">⚡</span>
           <span className="font-bold text-lg">LiveStream+</span>
@@ -58,7 +58,7 @@ export default function Home() {
 
       <section
         id="home"
-        className="text-center py-20 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white"
+        className="text-center py-20 bg-gradient-to-r from-primary via-secondary to-accent text-white"
       >
         <h1 className="text-4xl font-bold mb-4">
           Monétise ton contenu. Regarde en direct. Paye à la minute.
@@ -66,31 +66,31 @@ export default function Home() {
         <div className="flex justify-center gap-4">
           <Link
             to="/streamer"
-            className="px-6 py-3 bg-white text-indigo-600 rounded-lg hover:scale-105 transition"
+            className="px-6 py-3 bg-primary text-white rounded-lg hover:scale-105 transition"
           >
             🚀 Lancer mon live
           </Link>
           <Link
             to="/dashboard"
-            className="px-6 py-3 bg-transparent border border-white rounded-lg hover:bg-white hover:text-indigo-600 transition"
+            className="px-6 py-3 bg-transparent border border-white rounded-lg hover:bg-white hover:text-primary transition"
           >
             🎥 Rejoindre un live
           </Link>
           <Link
             to="/super-admin"
-            className="px-6 py-3 bg-black text-white rounded-lg hover:bg-white hover:text-indigo-600 transition"
+            className="px-6 py-3 bg-secondary text-white rounded-lg hover:bg-white hover:text-secondary transition"
           >
             ⚙️ Interface admin
           </Link>
           <Link
             to="/creator-admin"
-            className="px-6 py-3 bg-black text-white rounded-lg hover:bg-white hover:text-indigo-600 transition"
+            className="px-6 py-3 bg-secondary text-white rounded-lg hover:bg-white hover:text-secondary transition"
           >
             🧑‍💻 Interface créateur
           </Link>
           <Link
             to="/subscriber"
-            className="px-6 py-3 bg-white text-indigo-600 rounded-lg hover:scale-105 transition"
+            className="px-6 py-3 bg-accent text-black rounded-lg hover:scale-105 transition"
           >
             👤 Interface abonné
           </Link>
@@ -198,25 +198,25 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="cta" className="py-16 px-4 text-center">
+      <section id="cta" className="py-16 px-4 text-center bg-gradient-to-r from-primary via-secondary to-accent text-white">
         <h2 className="text-3xl font-bold mb-4">Prêt à streamer ou à regarder ?</h2>
-        <div className="flex justify-center gap-4">
-          <Link to="/login" className="px-6 py-3 bg-indigo-600 text-white rounded-lg">
+        <div className="flex justify-center gap-4 flex-wrap">
+          <Link to="/login" className="px-6 py-3 bg-black text-white rounded-lg">
             Commencer maintenant
           </Link>
-          <Link to="/dashboard" className="px-6 py-3 border rounded-lg">
+          <Link to="/dashboard" className="px-6 py-3 border border-white rounded-lg">
             Je suis spectateur
           </Link>
-          <Link to="/streamer" className="px-6 py-3 border rounded-lg">
+          <Link to="/streamer" className="px-6 py-3 border border-white rounded-lg">
             Je suis streamer
           </Link>
-          <Link to="/super-admin" className="px-6 py-3 border rounded-lg">
+          <Link to="/super-admin" className="px-6 py-3 border border-white rounded-lg">
             ⚙️ Interface admin
           </Link>
-          <Link to="/creator-admin" className="px-6 py-3 border rounded-lg">
+          <Link to="/creator-admin" className="px-6 py-3 border border-white rounded-lg">
             🛠️ PAGE ADMINISTRATEUR – CRÉATEUR
           </Link>
-          <Link to="/subscriber" className="px-6 py-3 border rounded-lg">
+          <Link to="/subscriber" className="px-6 py-3 border border-white rounded-lg">
             👤 Interface ABONNÉ
           </Link>
         </div>

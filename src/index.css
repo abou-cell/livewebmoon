@@ -4,4 +4,5 @@
 
 body {
   font-family: 'Inter', sans-serif;
+  @apply bg-gradient-to-br from-primary via-secondary to-accent min-h-screen;
 }
