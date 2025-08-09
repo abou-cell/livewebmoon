@@ -10,6 +10,8 @@ import AdminLayout from './routes/admin/AdminLayout'
 import AdminDashboard from './routes/admin/Dashboard'
 import Placeholder from './routes/admin/Placeholder'
 import AdminLive from './routes/admin/Live'
+import AdminPhotos from './routes/admin/Photos'
+import AdminVideos from './routes/admin/Videos'
 import RequireSuperAdmin from './routes/admin/RequireSuperAdmin'
 
 export default function App() {
@@ -31,8 +33,8 @@ export default function App() {
         >
           <Route index element={<AdminDashboard />} />
           <Route path="live" element={<AdminLive />} />
-          <Route path="photos" element={<Placeholder title="Photos payantes" />} />
-          <Route path="videos" element={<Placeholder title="Vidéos payantes" />} />
+          <Route path="photos" element={<AdminPhotos />} />
+          <Route path="videos" element={<AdminVideos />} />
           <Route path="credits" element={<Placeholder title="Crédits & Prix" />} />
           <Route path="payments" element={<Placeholder title="Paiements & Payouts" />} />
           <Route path="moderation" element={<Placeholder title="Modération & Signalements" />} />
