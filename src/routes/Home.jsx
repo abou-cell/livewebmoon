@@ -4,7 +4,7 @@ import { useState } from 'react'
 function PaidItem({ type }) {
   const [unlocked, setUnlocked] = useState(false)
   return (
-    <div className="relative border rounded-lg overflow-hidden shadow">
+    <div className="relative border border-gray-700 bg-surface rounded-lg overflow-hidden shadow">
       <div className={unlocked ? '' : 'blur-sm'}>
         {type === 'photo' ? (
           <img
@@ -13,8 +13,8 @@ function PaidItem({ type }) {
             className="w-full h-full object-cover"
           />
         ) : (
-          <div className="aspect-video w-full bg-gray-200 flex items-center justify-center">
-            <span className="text-gray-500">Vidéo payante</span>
+          <div className="aspect-video w-full bg-gray-700 flex items-center justify-center">
+            <span className="text-gray-400">Vidéo payante</span>
           </div>
         )}
       </div>
@@ -32,17 +32,17 @@ function PaidItem({ type }) {
 
 function ArticleCard({ title }) {
   return (
-    <div className="p-4 border rounded-lg shadow hover:shadow-lg transition">
+    <div className="p-4 border border-gray-700 bg-surface rounded-lg shadow hover:shadow-lg transition">
       <h3 className="font-semibold mb-2">{title}</h3>
-      <button className="text-indigo-600">Lire plus</button>
+      <button className="text-primary">Lire plus</button>
     </div>
   )
 }
 
 export default function Home() {
   return (
-    <div className="font-sans">
-      <header className="flex items-center justify-between p-4 bg-white/30 backdrop-blur-md rounded-b-xl shadow-lg text-gray-900">
+    <div className="font-sans bg-background text-gray-100">
+      <header className="flex items-center justify-between p-4 bg-surface/50 backdrop-blur-md rounded-b-xl shadow-lg text-gray-100 border-b border-gray-700">
         <div className="flex items-center gap-2">
           <span className="text-2xl">⚡</span>
           <span className="font-bold text-lg">LiveStream+</span>
@@ -99,7 +99,7 @@ export default function Home() {
 
       <section id="about" className="py-16 px-4 text-center">
         <h2 className="text-3xl font-bold mb-4">À propos</h2>
-        <p className="max-w-2xl mx-auto text-gray-600">
+        <p className="max-w-2xl mx-auto text-gray-400">
           LiveStream+ est une plateforme innovante de streaming en direct avec un
           système de crédits à la minute. Les streamers gagnent. Les viewers
           choisissent ce qu’ils veulent regarder. Simple. Sécurisé. Instantané.
@@ -116,22 +116,22 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="features" className="py-16 bg-gray-50 px-4">
+      <section id="features" className="py-16 bg-surface px-4">
         <h2 className="text-3xl font-bold text-center mb-8">Fonctionnalités</h2>
         <div className="max-w-4xl mx-auto grid gap-8 sm:grid-cols-2">
-          <div className="p-6 border rounded-lg">
+          <div className="p-6 border border-gray-700 bg-surface rounded-lg">
             <h3 className="font-semibold mb-2">💸 Système de crédits</h3>
             <p>Rechargement via Stripe, 1 crédit = 1 minute</p>
           </div>
-          <div className="p-6 border rounded-lg">
+          <div className="p-6 border border-gray-700 bg-surface rounded-lg">
             <h3 className="font-semibold mb-2">📺 Streaming sécurisé</h3>
             <p>Cloudflare Stream Live + Token Auth</p>
           </div>
-          <div className="p-6 border rounded-lg">
+          <div className="p-6 border border-gray-700 bg-surface rounded-lg">
             <h3 className="font-semibold mb-2">🧑‍🎤 Dashboard Streamer</h3>
             <p>Lancer le live, suivre crédits et viewers</p>
           </div>
-          <div className="p-6 border rounded-lg">
+          <div className="p-6 border border-gray-700 bg-surface rounded-lg">
             <h3 className="font-semibold mb-2">👤 Dashboard Viewer</h3>
             <p>Rejoindre un live, minuterie + crédit en direct</p>
           </div>
@@ -141,31 +141,31 @@ export default function Home() {
       <section id="pricing" className="py-16 px-4">
         <h2 className="text-3xl font-bold text-center mb-8">Packs de crédits</h2>
         <div className="max-w-5xl mx-auto grid gap-6 sm:grid-cols-3">
-          <div className="p-6 border rounded-xl text-center shadow hover:shadow-lg transition">
+          <div className="p-6 border border-gray-700 bg-surface rounded-xl text-center shadow hover:shadow-lg transition">
             <h3 className="text-xl font-bold mb-2">⚡ Pack Starter</h3>
             <p className="mb-4">5 crédits – 5 MAD</p>
-            <button className="px-4 py-2 bg-indigo-600 text-white rounded-lg">
+            <button className="px-4 py-2 bg-primary text-white rounded-lg">
               Acheter
             </button>
           </div>
-          <div className="p-6 border rounded-xl text-center shadow hover:shadow-lg transition">
+          <div className="p-6 border border-gray-700 bg-surface rounded-xl text-center shadow hover:shadow-lg transition">
             <h3 className="text-xl font-bold mb-2">💎 Pack Pro</h3>
             <p className="mb-4">20 crédits – 18 MAD</p>
-            <button className="px-4 py-2 bg-indigo-600 text-white rounded-lg">
+            <button className="px-4 py-2 bg-primary text-white rounded-lg">
               Acheter
             </button>
           </div>
-          <div className="p-6 border rounded-xl text-center shadow hover:shadow-lg transition">
+          <div className="p-6 border border-gray-700 bg-surface rounded-xl text-center shadow hover:shadow-lg transition">
             <h3 className="text-xl font-bold mb-2">🚀 Pack Unlimited</h3>
             <p className="mb-4">50 crédits – 40 MAD</p>
-            <button className="px-4 py-2 bg-indigo-600 text-white rounded-lg">
+            <button className="px-4 py-2 bg-primary text-white rounded-lg">
               Acheter
             </button>
           </div>
         </div>
       </section>
 
-      <section id="content" className="py-16 bg-gray-50 px-4">
+      <section id="content" className="py-16 bg-surface px-4">
         <h2 className="text-3xl font-bold text-center mb-8">Contenus payants</h2>
         <div className="max-w-5xl mx-auto grid gap-6 md:grid-cols-2">
           <PaidItem type="photo" />
@@ -180,16 +180,16 @@ export default function Home() {
         <div className="max-w-3xl mx-auto space-y-6">
           <blockquote className="border-l-4 pl-4">
             <p>« J’ai gagné 200 MAD dès mon premier live ! »</p>
-            <cite className="text-sm text-gray-500">– Mouna, streamer</cite>
+            <cite className="text-sm text-gray-400">– Mouna, streamer</cite>
           </blockquote>
           <blockquote className="border-l-4 pl-4">
             <p>« Pas d’abonnement, je paye ce que je regarde. Parfait ! »</p>
-            <cite className="text-sm text-gray-500">– Youssef, viewer</cite>
+            <cite className="text-sm text-gray-400">– Youssef, viewer</cite>
           </blockquote>
         </div>
       </section>
 
-      <section id="blog" className="py-16 bg-gray-50 px-4">
+      <section id="blog" className="py-16 bg-surface px-4">
         <h2 className="text-3xl font-bold text-center mb-8">Articles récents</h2>
         <div className="max-w-4xl mx-auto grid gap-6 sm:grid-cols-3">
           <ArticleCard title="Comment gagner de l’argent avec vos vidéos ?" />
@@ -222,27 +222,27 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="contact" className="py-16 bg-gray-50 px-4">
+      <section id="contact" className="py-16 bg-surface px-4">
         <h2 className="text-3xl font-bold text-center mb-8">Contact</h2>
         <div className="max-w-4xl mx-auto grid gap-8 md:grid-cols-2">
           <form className="space-y-4">
             <input
               type="text"
               placeholder="Nom"
-              className="w-full border p-2 rounded"
+              className="w-full border border-gray-700 bg-surface p-2 rounded"
             />
             <input
               type="email"
               placeholder="Email"
-              className="w-full border p-2 rounded"
+              className="w-full border border-gray-700 bg-surface p-2 rounded"
             />
             <textarea
               placeholder="Message"
-              className="w-full border p-2 rounded h-32"
+              className="w-full border border-gray-700 bg-surface p-2 rounded h-32"
             />
             <button
               type="submit"
-              className="px-4 py-2 bg-indigo-600 text-white rounded"
+              className="px-4 py-2 bg-primary text-white rounded"
             >
               Envoyer
             </button>
@@ -252,7 +252,7 @@ export default function Home() {
               Email support :
               <a
                 href="mailto:support@liveapp.com"
-                className="text-indigo-600"
+                className="text-primary"
               >
                 support@liveapp.com
               </a>
@@ -303,7 +303,7 @@ export default function Home() {
                 placeholder="Email"
                 className="flex-1 p-2 rounded text-black"
               />
-              <button className="px-4 py-2 bg-indigo-600 rounded">
+              <button className="px-4 py-2 bg-primary rounded">
                 S’inscrire
               </button>
             </form>
