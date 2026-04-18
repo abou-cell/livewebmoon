@@ -1,11 +1,13 @@
 import { Link } from 'react-router-dom'
+import Navbar from '../components/Navbar'
 
 export default function Dashboard() {
   return (
     <div className="min-h-screen p-6 space-y-6 bg-background text-gray-100">
+      <Navbar />
+
       <header className="flex items-center justify-between">
         <h1 className="text-2xl font-semibold">Tableau de bord</h1>
-        <Link to="/" className="underline">Accueil</Link>
       </header>
 
       <div className="grid gap-6 md:grid-cols-3">
