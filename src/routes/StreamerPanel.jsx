@@ -1,6 +1,10 @@
+import Navbar from '../components/Navbar'
+
 export default function StreamerPanel() {
   return (
     <div className="min-h-screen p-6 space-y-6 bg-background text-gray-100">
+      <Navbar />
+
       <h1 className="text-2xl font-semibold">Espace créateur (démo)</h1>
 
       <button className="px-4 py-2 rounded-xl bg-primary text-white shadow">
