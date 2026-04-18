@@ -4,4 +4,5 @@
 
 body {
   font-family: 'Inter', sans-serif;
+  @apply bg-background text-gray-100 min-h-screen;
 }
