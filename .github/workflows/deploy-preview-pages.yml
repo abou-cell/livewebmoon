@@ -1,4 +1,4 @@
-name: Deploy Web TV previews
+name: Deploy LiveWebMoon preproduction and previews
 
 on:
   push:
@@ -22,16 +22,35 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout preview publishing branch
+      - name: Checkout application
+        uses: actions/checkout@v4
+      - name: Checkout original visual previews
         uses: actions/checkout@v4
         with:
           ref: gh-pages
+          path: legacy-previews
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Install declared dependencies
+        run: npm install --no-package-lock
+      - name: Build real Supabase-connected application
+        env:
+          VITE_SUPABASE_URL: https://cffvwtbjkkjkyuunmuzp.supabase.co
+          VITE_SUPABASE_PUBLISHABLE_KEY: sb_publishable_dZkwy8ZjjQno8lB8t4G8Mg_76zwYffW
+        run: npm run build
+      - name: Preserve visual previews and SPA deep links
+        run: |
+          mkdir -p dist/preview
+          cp -R legacy-previews/preview/. dist/preview/
+          cp dist/index.html dist/404.html
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
-      - name: Upload preview and existing site
+      - name: Upload app and previews
         uses: actions/upload-pages-artifact@v3
         with:
-          path: .
+          path: dist
       - name: Deploy
         id: deployment
         uses: actions/deploy-pages@v4
