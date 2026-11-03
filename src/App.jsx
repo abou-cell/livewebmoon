@@ -5,6 +5,7 @@ import UserDashboard from './routes/Dashboard'
 import StreamerPanel from './routes/StreamerPanel'
 import StreamPlayer from './routes/StreamPlayer'
 import CreatorAdmin from './routes/CreatorAdmin'
+import RequireChannelAdmin from './routes/RequireChannelAdmin'
 import Subscriber from './routes/Subscriber'
 import AdminLayout from './routes/admin/AdminLayout'
 import AdminDashboard from './routes/admin/Dashboard'
@@ -28,14 +29,9 @@ export default function App() {
         <Route path="/dashboard" element={<UserDashboard />} />
         <Route path="/streamer" element={<StreamerPanel />} />
         <Route path="/watch/:id" element={<StreamPlayer />} />
-        <Route
-          path="/admin"
-          element={
-            <RequireSuperAdmin>
-              <AdminLayout />
-            </RequireSuperAdmin>
-          }
-        >
+        <Route path="/creator-admin" element={<RequireChannelAdmin><CreatorAdmin /></RequireChannelAdmin>} />
+        <Route path="/subscriber" element={<Subscriber />} />
+        <Route path="/admin" element={<RequireSuperAdmin><AdminLayout /></RequireSuperAdmin>}>
           <Route index element={<AdminDashboard />} />
           <Route path="live" element={<AdminLive />} />
           <Route path="photos" element={<AdminPhotos />} />
@@ -47,8 +43,6 @@ export default function App() {
           <Route path="settings" element={<AdminSettings />} />
           <Route path="support" element={<AdminSupport />} />
         </Route>
-        <Route path="/creator-admin" element={<CreatorAdmin />} />
-        <Route path="/subscriber" element={<Subscriber />} />
         <Route path="*" element={<Home />} />
       </Routes>
     </div>
