@@ -1,26 +1,25 @@
 import { useEffect, useState } from 'react'
 import { Navigate } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
+import { supabase } from '../lib/supabaseClient'
 
 export default function RequireChannelAdmin({ children }) {
   const { user, loading } = useAuth()
-  const [state, setState] = useState('checking')
-
+  const [check, setCheck] = useState({ id: null, allowed: false, pending: true })
   useEffect(() => {
+    if (!user || !supabase) return
     let active = true
-    if (!user) {
-      setState('denied')
-      return () => { active = false }
-    }
-    setState('checking')
-    user.getIdTokenResult().then(result => {
-      if (active) setState(result.claims.channelAdmin === true || result.claims.superAdmin === true ? 'allowed' : 'denied')
-    }).catch(() => { if (active) setState('denied') })
+    supabase.from('creator_settings').select('owner_id').eq('id', true).maybeSingle()
+      .then(({ data, error }) => {
+        if (active) setCheck({ id: user.id, allowed: !error && data?.owner_id === user.id, pending: false })
+      })
+      .catch(() => { if (active) setCheck({ id: user.id, allowed: false, pending: false }) })
     return () => { active = false }
   }, [user])
-
-  if (loading || (user && state === 'checking')) return <div className="min-h-screen grid place-items-center bg-slate-950 text-white">Vérification des autorisations…</div>
+  if (loading || (user && (check.id !== user.id || check.pending))) {
+    return <div className="grid min-h-screen place-items-center">Vérification des autorisations…</div>
+  }
   if (!user) return <Navigate to="/login" replace />
-  if (state !== 'allowed') return <div className="min-h-screen grid place-items-center bg-slate-950 p-6 text-center text-white"><div><h1 className="text-xl font-bold">Accès administrateur refusé</h1><p className="mt-2 text-slate-400">Ce compte ne dispose pas du rôle channelAdmin. Contactez l'administrateur de la plateforme.</p></div></div>
+  if (!check.allowed) return <div className="grid min-h-screen place-items-center p-6"><div className="text-center"><h1 className="text-xl font-bold">Accès administrateur refusé</h1><p>Votre compte spectateur n'est pas propriétaire de cette chaîne.</p></div></div>
   return children
 }
