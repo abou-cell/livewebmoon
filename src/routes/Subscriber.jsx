@@ -1,202 +1,44 @@
-import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { Link, Navigate } from 'react-router-dom'
+import { useAuth } from '../hooks/useAuth'
+import { supabase } from '../lib/supabaseClient'
 
 export default function Subscriber() {
-  const [credits, setCredits] = useState(12)
-  const [unlockedPhotos, setUnlockedPhotos] = useState({})
-  const [unlockedVideos, setUnlockedVideos] = useState({})
-  const [menuOpen, setMenuOpen] = useState(false)
-  const photos = Array.from({ length: 3 }).map((_, i) => ({ id: i + 1 }))
-  const videos = Array.from({ length: 2 }).map((_, i) => ({ id: i + 1, duration: '2:30' }))
+  const { user, loading, logout } = useAuth()
+  const [state, setState] = useState({ loading: true, plans: [], subscriptions: [], credits: null, error: '' })
+  useEffect(() => {
+    if (!user || !supabase) return
+    let active = true
+    Promise.all([
+      supabase.from('membership_plans').select('id,title,description,price_cents,currency').eq('active', true),
+      supabase.from('member_subscriptions').select('id,status,current_period_end,plan_id').eq('user_id', user.id),
+      supabase.from('credit_ledger').select('delta').eq('user_id', user.id),
+    ]).then(([plans, subs, ledger]) => {
+      if (!active) return
+      const error = [plans.error, subs.error, ledger.error].find(Boolean)
+      setState({
+        loading: false,
+        plans: plans.data || [],
+        subscriptions: subs.data || [],
+        credits: ledger.data?.reduce((sum, item) => sum + item.delta, 0) ?? null,
+        error: error?.message || '',
+      })
+    }).catch(err => { if (active) setState(s => ({ ...s, loading: false, error: err.message })) })
+    return () => { active = false }
+  }, [user])
+  if (loading) return <div className="grid min-h-screen place-items-center">Chargement du compte…</div>
+  if (!user) return <Navigate to="/login" replace />
 
-  function unlock(type, id, cost) {
-    if (credits < cost) return alert('Crédits insuffisants')
-    setCredits(c => c - cost)
-    if (type === 'photo') setUnlockedPhotos(p => ({ ...p, [id]: true }))
-    if (type === 'video') setUnlockedVideos(v => ({ ...v, [id]: true }))
-  }
-
-  return (
-    <div className="font-sans bg-background text-gray-100 min-h-screen flex flex-col">
-      {/* Header */}
-      <header className="relative bg-surface shadow-sm h-14 px-4 flex justify-between items-center border-b border-gray-700">
-        <Link to="/" className="font-bold">🌙 StreamMint</Link>
-        <div className="flex items-center gap-4">
-          <Link to="/" className="hidden sm:block">🔗 Accueil</Link>
-          <button className="hidden sm:block">👤 Mon compte</button>
-          <button className="hidden sm:block">💳 Recharger</button>
-          <button className="hidden sm:block">📤 Déconnexion</button>
-          <button className="sm:hidden" onClick={() => setMenuOpen(o => !o)}>
-            ☰
-          </button>
-          <button className="px-3 py-1 bg-gray-700 rounded-full" title="Recharger">
-            💳 {credits} crédits
-          </button>
-        </div>
-        {menuOpen && (
-          <div className="absolute top-full right-4 flex flex-col gap-2 bg-surface border border-gray-700 rounded-lg p-4 shadow-md sm:hidden">
-            <Link to="/" onClick={() => setMenuOpen(false)}>🔗 Accueil</Link>
-            <button onClick={() => setMenuOpen(false)}>👤 Mon compte</button>
-            <button onClick={() => setMenuOpen(false)}>💳 Recharger</button>
-            <button onClick={() => setMenuOpen(false)}>📤 Déconnexion</button>
-          </div>
-        )}
-      </header>
-
-      {/* Banner */}
-      <section className="bg-surface shadow-sm p-6 flex flex-col items-center text-center gap-4">
-        <img
-          src="https://via.placeholder.com/120"
-          alt="Avatar"
-          className="w-24 h-24 rounded-full object-cover"
-        />
-        <div className="flex items-center gap-2">
-          <span className="font-semibold">@marie-modele</span>
-          <span className="text-blue-500">✅</span>
-        </div>
-        <div className="flex flex-wrap justify-center gap-4 text-sm text-gray-400">
-          <span>📷 12 photos</span>
-          <span>🎞 6 vidéos</span>
-          <span>📡 Live en cours</span>
-          <span>⭐ 4.8/5</span>
-        </div>
-        <button className="px-4 py-2 bg-primary text-white rounded-xl shadow hover:scale-105 transition">
-          S’abonner à ce créateur
-        </button>
-        <p className="text-xs text-gray-500">
-          Paiement sécurisé • Tokens vidéo • Support 24/7
-        </p>
-      </section>
-
-      {/* Credits info */}
-      <section className="p-6">
-        <div className="bg-surface rounded-2xl shadow-lg p-6 max-w-xl mx-auto text-center space-y-2">
-          <p className="text-lg">Vous avez : 💳 {credits} crédits</p>
-          <p>👉 1 minute de live = 1 crédit</p>
-          <p>👉 Une photo/vidéo = 3 à 5 crédits</p>
-          <button className="px-4 py-2 bg-primary text-white rounded-xl">💳 Recharger mes crédits</button>
-        </div>
-      </section>
-
-      {/* Live section placeholder */}
-      <section className="p-6">
-        <div className="bg-surface rounded-2xl shadow-lg p-6 text-center">
-          <h2 className="text-xl font-semibold mb-4">📡 Live streaming</h2>
-          <div className="aspect-video bg-gray-700 flex items-center justify-center mb-4">
-            Player live
-          </div>
-          <p className="text-sm text-gray-400">Minuteur & débit automatique toutes les 60s</p>
-        </div>
-      </section>
-
-      {/* Photos section */}
-      <section className="p-6">
-        <h2 className="text-xl font-semibold mb-4">📸 Photos exclusives</h2>
-        <div className="grid gap-4 sm:grid-cols-3">
-          {photos.map(photo => (
-            <div key={photo.id} className="relative border border-gray-700 bg-surface rounded-lg overflow-hidden shadow">
-              <img
-                src="https://via.placeholder.com/400x250"
-                className={`w-full h-full object-cover ${unlockedPhotos[photo.id] ? '' : 'blur-sm'}`}
-              />
-              {!unlockedPhotos[photo.id] && (
-                <button
-                  onClick={() => unlock('photo', photo.id, 3)}
-                  className="absolute inset-0 flex items-center justify-center bg-black/50 text-white"
-                >
-                  🔓 Déverrouiller – 3 crédits
-                </button>
-              )}
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* Videos section */}
-      <section className="p-6">
-        <h2 className="text-xl font-semibold mb-4">🎞 Vidéos payantes</h2>
-        <div className="grid gap-4 sm:grid-cols-2">
-          {videos.map(video => (
-            <div key={video.id} className="relative border border-gray-700 bg-surface rounded-lg overflow-hidden shadow">
-              <div className="aspect-video w-full bg-gray-700 flex items-center justify-center">
-                {unlockedVideos[video.id] ? (
-                  <span>Lecture vidéo</span>
-                ) : (
-                  <span className="text-gray-400">Vidéos payantes</span>
-                )}
-              </div>
-              {!unlockedVideos[video.id] && (
-                <button
-                  onClick={() => unlock('video', video.id, 5)}
-                  className="absolute inset-0 flex items-center justify-center bg-black/50 text-white"
-                >
-                  🔓 Déverrouiller – 5 crédits
-                </button>
-              )}
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* Premium subscription */}
-      <section className="p-6">
-        <div className="max-w-md mx-auto bg-surface rounded-2xl shadow-lg p-6 text-center space-y-4">
-          <h2 className="text-xl font-semibold">🎁 Abonnement Premium</h2>
-          <p className="text-gray-400">Accès illimité au créateur</p>
-          <p className="text-gray-400">Lives sans perte de crédits</p>
-          <p className="text-gray-400">Remises sur photos/vidéos</p>
-          <button className="px-4 py-2 bg-primary text-white rounded-xl">
-            🔒 Abonnement Premium – 9,99 €/mois
-          </button>
-        </div>
-      </section>
-
-      {/* History */}
-      <section className="p-6 flex-1">
-        <h2 className="text-xl font-semibold mb-4">🧾 Historique d’interactions</h2>
-        <div className="overflow-x-auto">
-          <table className="min-w-full bg-surface rounded-2xl shadow-lg overflow-hidden">
-            <thead className="bg-gray-700">
-              <tr>
-                <th className="p-2 text-left">📅 Date</th>
-                <th className="p-2 text-left">🎬 Contenu</th>
-                <th className="p-2 text-left">🎫 Crédits</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr className="border-t border-gray-700">
-                <td className="p-2">06/08</td>
-                <td className="p-2">Live Marie</td>
-                <td className="p-2">−3</td>
-              </tr>
-              <tr className="border-t border-gray-700">
-                <td className="p-2">06/08</td>
-                <td className="p-2">Photo 5</td>
-                <td className="p-2">−3</td>
-              </tr>
-              <tr className="border-t border-gray-700">
-                <td className="p-2">05/08</td>
-                <td className="p-2">Vidéo 2</td>
-                <td className="p-2">−5</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </section>
-
-      {/* Footer */}
-      <footer className="bg-black text-white py-8 mt-auto">
-        <div className="max-w-4xl mx-auto text-center space-y-2 text-sm">
-          <div className="flex flex-wrap justify-center gap-4">
-            <a href="#">Mentions légales</a>
-            <a href="#">CGU</a>
-            <a href="#">Politique de confidentialité</a>
-            <a href="#">Support</a>
-          </div>
-          <p>© 2024 StreamMint</p>
-        </div>
-      </footer>
-    </div>
-  )
+  return <div className="min-h-screen bg-[#fbf8f8] text-slate-800">
+    <header className="border-b border-rose-100 bg-white"><div className="mx-auto flex max-w-5xl items-center justify-between gap-4 px-5 py-5"><Link to="/" className="font-bold text-rose-600">♡ LiveWebMoon</Link><button className="rounded-xl border border-rose-200 px-4 py-2 text-sm" onClick={() => logout()}>Se déconnecter</button></div></header>
+    <main className="mx-auto max-w-5xl space-y-8 px-5 py-12">
+      <div><p className="text-xs font-bold uppercase tracking-widest text-rose-500">Espace membre</p><h1 className="mt-2 text-3xl font-bold">Bonjour, {user.email}</h1><p className="mt-2 text-slate-500">Vos abonnements et crédits proviennent de votre compte sécurisé.</p></div>
+      {state.error && <p role="alert" className="rounded-xl bg-red-50 p-4 text-red-700">{state.error}</p>}
+      {state.loading ? <p>Chargement de vos droits…</p> : <div className="grid gap-5 md:grid-cols-2">
+        <section className="rounded-2xl border border-rose-100 bg-white p-6 shadow-sm"><h2 className="font-semibold">Mes crédits</h2><p className="mt-3 text-4xl font-bold text-rose-600">{state.credits === null ? '—' : state.credits}</p><p className="mt-3 text-sm text-slate-500">Rechargement désactivé durant la préproduction. Aucun crédit fictif n'est attribué.</p></section>
+        <section className="rounded-2xl border border-rose-100 bg-white p-6 shadow-sm"><h2 className="font-semibold">Mes abonnements</h2>{state.subscriptions.length ? state.subscriptions.map(s => <p className="mt-3 text-sm" key={s.id}>Statut : {s.status}{s.current_period_end ? ' · Jusqu’au ' + new Date(s.current_period_end).toLocaleDateString('fr-FR') : ''}</p>) : <p className="mt-3 text-sm text-slate-500">Aucun abonnement actif pour le moment.</p>}</section>
+      </div>}
+      <section className="rounded-2xl border border-rose-100 bg-white p-6"><h2 className="text-xl font-bold">Offres disponibles</h2>{state.plans.length ? <ul className="mt-4 space-y-3">{state.plans.map(p => <li key={p.id} className="rounded-xl bg-rose-50 p-4"><strong>{p.title}</strong><p className="text-sm">{p.description}</p><p className="mt-1 text-sm">{(p.price_cents / 100).toLocaleString('fr-FR',{style:'currency',currency:p.currency.toUpperCase()})}</p></li>)}</ul> : <p className="mt-3 text-sm text-slate-500">Les offres seront ajoutées par la propriétaire de la chaîne. Stripe est en mode test et les achats restent indisponibles.</p>}</section>
+    </main>
+  </div>
 }
-
