@@ -1,30 +1,49 @@
-import { createContext, createElement, useContext, useEffect, useState } from "react";
-import { onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut } from "firebase/auth";
-import { auth } from "../lib/firebaseConfig";
+import { createContext, createElement, useContext, useEffect, useState } from 'react'
+import { isSupabaseConfigured, supabase } from '../lib/supabaseClient'
 
-const AuthContext = createContext();
+const AuthContext = createContext(null)
 
-export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
+export function AuthProvider({ children }) {
+  const [user, setUser] = useState(null)
+  const [loading, setLoading] = useState(isSupabaseConfigured)
 
   useEffect(() => {
-    const unsub = onAuthStateChanged(auth, (u) => {
-      setUser(u);
-      setLoading(false);
-    });
-    return unsub;
-  }, []);
+    if (!supabase) return
+    let active = true
+    supabase.auth.getUser().then(({ data, error }) => {
+      if (!active) return
+      setUser(error ? null : data.user)
+      setLoading(false)
+    }).catch(() => { if (active) setLoading(false) })
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (active) { setUser(session?.user ?? null); setLoading(false) }
+    })
+    return () => { active = false; subscription.unsubscribe() }
+  }, [])
 
-  const value = {
-    user,
-    loading,
-    signIn: (email, password) => signInWithEmailAndPassword(auth, email, password),
-    register: (email, password) => createUserWithEmailAndPassword(auth, email, password),
-    logout: () => signOut(auth),
-  };
+  const ensureClient = () => {
+    if (!supabase) throw new Error('Supabase non configuré pour ce déploiement.')
+    return supabase
+  }
+  const unwrap = async promise => {
+    const { data, error } = await promise
+    if (error) throw error
+    return data
+  }
+  return createElement(AuthContext.Provider, {
+    value: {
+      user,
+      loading,
+      configured: isSupabaseConfigured,
+      signIn: (email, password) => unwrap(ensureClient().auth.signInWithPassword({ email, password })),
+      register: (email, password) => unwrap(ensureClient().auth.signUp({ email, password })),
+      signInWithGoogle: () => unwrap(ensureClient().auth.signInWithOAuth({
+        provider: 'google',
+        options: { redirectTo: window.location.origin + import.meta.env.BASE_URL }
+      })),
+      logout: () => unwrap(ensureClient().auth.signOut()),
+    }
+  }, children)
+}
 
-  return createElement(AuthContext.Provider, { value }, children);
-};
-
-export const useAuth = () => useContext(AuthContext);
+export function useAuth() { return useContext(AuthContext) }
