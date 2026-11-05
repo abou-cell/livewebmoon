@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
 
 export default function Login() {
-  const { signIn, register, signInWithGoogle, configured } = useAuth()
+  const { signIn, register, signInWithGoogle, resendConfirmation, configured } = useAuth()
   const navigate = useNavigate()
   const [mode, setMode] = useState('login')
   const [email, setEmail] = useState('')
@@ -11,6 +11,8 @@ export default function Login() {
   const [error, setError] = useState('')
   const [notice, setNotice] = useState('')
   const [pending, setPending] = useState(false)
+  const [resending, setResending] = useState(false)
+  const [resendCooldown, setResendCooldown] = useState(false)
 
   async function submit(event) {
     event.preventDefault()
@@ -25,9 +27,29 @@ export default function Login() {
         navigate('/subscriber', { replace: true })
       }
     } catch (err) {
-      setError(err.message || 'Connexion impossible.')
+      setError(err.code === 'email_not_confirmed' || /email not confirmed/i.test(err.message || '') ? 'Votre adresse email n’est pas encore confirmée. Utilisez le bouton ci-dessous pour recevoir un nouveau lien.' : err.message || 'Connexion impossible.')
     } finally {
       setPending(false)
+    }
+  }
+
+  async function resendEmail() {
+    setError('')
+    setNotice('')
+    if (!email.trim()) {
+      setError('Saisissez votre adresse email dans le champ ci-dessus avant de demander un nouveau lien.')
+      return
+    }
+    setResending(true)
+    try {
+      await resendConfirmation(email.trim())
+      setNotice('Si cette adresse attend une confirmation, un nouvel email vient d’être demandé. Consultez le dernier message reçu (et vos spams).')
+      setResendCooldown(true)
+      window.setTimeout(() => setResendCooldown(false), 60000)
+    } catch (err) {
+      setError(err.status === 429 ? 'Trop de demandes. Veuillez patienter quelques minutes avant de réessayer.' : err.message || 'Impossible de demander un nouvel email.')
+    } finally {
+      setResending(false)
     }
   }
 
@@ -44,6 +66,8 @@ export default function Login() {
         {notice && <p role="status" className="text-sm text-emerald-700">{notice}</p>}
         <button disabled={pending || !configured} className="w-full rounded-xl bg-rose-600 p-3 font-semibold text-white disabled:opacity-50">{pending ? 'Veuillez patienter…' : mode === 'login' ? 'Connexion' : 'Créer mon compte'}</button>
       </form>
+      <button type="button" disabled={!configured || resending || resendCooldown} onClick={resendEmail} className="mt-4 w-full rounded-xl border border-rose-300 bg-rose-50 p-3 text-sm font-semibold text-rose-700 disabled:opacity-50">{resending ? 'Envoi en cours…' : resendCooldown ? 'Veuillez patienter avant un nouvel envoi' : 'Renvoyer l’email de confirmation'}</button>
+      <p className="mt-2 text-xs text-slate-500">Entrez votre email ci-dessus. Nous ne demanderons jamais votre mot de passe pour renvoyer le lien.</p>
       <button disabled={!configured} onClick={async () => { setError(''); try { await signInWithGoogle() } catch(e) { setError(e.message) } }} className="mt-4 w-full rounded-xl border border-slate-200 p-3 text-sm font-medium disabled:opacity-50">Continuer avec Google</button>
       <button onClick={() => { setMode(v => v === 'login' ? 'register' : 'login'); setError(''); setNotice('') }} className="mt-5 text-sm text-rose-600 hover:underline">{mode === 'login' ? "Pas encore de compte ? S'inscrire" : 'Déjà inscrit ? Se connecter'}</button>
     </div>
