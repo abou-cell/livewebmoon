@@ -47,7 +47,7 @@ export default function Login() {
     event.preventDefault()
     setError('')
     setNotice('')
-    if (!/^\\d{6}$/.test(code)) {
+    if (!/[0-9]{6}/.test(code) || code.length !== 6) {
       setError('Saisissez exactement les 6 chiffres de votre email.')
       return
     }
@@ -73,7 +73,7 @@ export default function Login() {
   async function resendEmail() {
     setError('')
     setNotice('')
-    if (!email.trim() || !/^\\S+@\\S+\\.\\S+$/.test(email.trim())) {
+    if (!email.trim() || !email.trim().includes('@') || !email.trim().split('@')[1]?.includes('.')) {
       setError('Saisissez une adresse email valide ci-dessus pour recevoir un nouveau code.')
       return
     }
@@ -107,7 +107,7 @@ export default function Login() {
           <input required autoComplete="email" type="email" value={email} onChange={e => setEmail(e.target.value)} className="mt-2 w-full rounded-xl border border-rose-100 bg-rose-50/40 p-3" />
         </label>
         <label className="block text-sm">Code de confirmation
-          <input required inputMode="numeric" pattern="[0-9]{6}" maxLength={6} autoComplete="one-time-code" placeholder="000000" value={code} onChange={e => setCode(e.target.value.replace(/\\D/g, '').slice(0, 6))} className="mt-2 w-full rounded-xl border border-rose-100 bg-rose-50/40 p-3 text-center text-2xl tracking-[.5em]" />
+          <input required inputMode="numeric" pattern="[0-9]{6}" maxLength={6} autoComplete="one-time-code" placeholder="000000" value={code} onChange={e => setCode(e.target.value.replace(/[^0-9]/g, '').slice(0, 6))} className="mt-2 w-full rounded-xl border border-rose-100 bg-rose-50/40 p-3 text-center text-2xl tracking-[.5em]" />
         </label>
         {error && <p role="alert" className="text-sm text-red-700">{error}</p>}
         {notice && <p role="status" className="text-sm text-emerald-700">{notice}</p>}
