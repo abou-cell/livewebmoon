@@ -36,7 +36,8 @@ export function AuthProvider({ children }) {
       loading,
       configured: isSupabaseConfigured,
       signIn: (email, password) => unwrap(ensureClient().auth.signInWithPassword({ email, password })),
-      register: (email, password) => unwrap(ensureClient().auth.signUp({ email, password })),
+      register: (email, password) => unwrap(ensureClient().auth.signUp({ email, password, options: { emailRedirectTo: window.location.origin + import.meta.env.BASE_URL } })),
+      resendConfirmation: email => unwrap(ensureClient().auth.resend({ type: 'signup', email, options: { emailRedirectTo: window.location.origin + import.meta.env.BASE_URL } })),
       signInWithGoogle: () => unwrap(ensureClient().auth.signInWithOAuth({
         provider: 'google',
         options: { redirectTo: window.location.origin + import.meta.env.BASE_URL }
