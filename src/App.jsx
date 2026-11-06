@@ -1,12 +1,13 @@
 import { Routes, Route } from 'react-router-dom'
-import Home from './routes/Home'
+import Home from './routes/CreatorLanding'
 import Login from './routes/Login'
 import UserDashboard from './routes/Dashboard'
 import StreamerPanel from './routes/StreamerPanel'
 import StreamPlayer from './routes/StreamPlayer'
 import CreatorAdmin from './routes/CreatorAdmin'
 import RequireChannelAdmin from './routes/RequireChannelAdmin'
-import Subscriber from './routes/Subscriber'
+import Subscriber from './routes/MemberHub'
+import CreatorSetup from './routes/CreatorSetup'
 import AdminLayout from './routes/admin/AdminLayout'
 import AdminDashboard from './routes/admin/Dashboard'
 import AdminLive from './routes/admin/Live'
@@ -31,6 +32,7 @@ export default function App() {
         <Route path="/watch/:id" element={<StreamPlayer />} />
         <Route path="/creator-admin" element={<RequireChannelAdmin><CreatorAdmin /></RequireChannelAdmin>} />
         <Route path="/subscriber" element={<Subscriber />} />
+        <Route path="/setup" element={<CreatorSetup />} />
         <Route path="/admin" element={<RequireSuperAdmin><AdminLayout /></RequireSuperAdmin>}>
           <Route index element={<AdminDashboard />} />
           <Route path="live" element={<AdminLive />} />
